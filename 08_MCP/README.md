@@ -39,6 +39,7 @@ app/
 Available MCP tools:
 
 - `list_products`
+- `search_products`
 - `get_product`
 - `add_to_cart`
 - `view_cart`
@@ -155,7 +156,17 @@ Why is OAuth important for MCP servers, and what security considerations should 
 
 #### Answer
 
-_(insert your answer here)_
+OAuth is important for MCP servers because once a server is exposed over HTTP, it needs a standard, secure way to identify callers and bind requests to a specific user context. In this project, OAuth allows the server to map tool calls to the authenticated username so cart operations are isolated per user.
+
+Security considerations:
+
+- Use Authorization Code + PKCE for public clients (CLI/desktop) instead of weaker flows.
+- Keep access tokens short-lived, support refresh/revocation, and rotate tokens on refresh.
+- Scope and constrain tool permissions (e.g., read vs write) so clients only get what they need.
+- Validate all tool inputs server-side (never trust model-generated arguments).
+- Treat high-impact tools (`checkout`, cart mutations) as sensitive actions and require explicit intent.
+- Ensure the OAuth `issuer_url` matches the public URL clients use, or auth will fail and can cause confusing token errors.
+- Prefer secure token storage and avoid exposing bearer tokens in logs.
 
 ### Question #2
 
@@ -163,7 +174,15 @@ What is Streamable HTTP transport in MCP, and why might you expose a server publ
 
 #### Answer
 
-_(insert your answer here)_
+Streamable HTTP is MCP's HTTP transport where clients communicate with the MCP server over a URL endpoint (here, `/mcp`) rather than local process pipes. It is designed for remote, network-accessible MCP integrations.
+
+You would expose a server publicly with OAuth (instead of local `stdio`) when:
+
+- Multiple users/clients need to connect to the same server over a network.
+- You want one deployed MCP service reusable by tools like Claude Code, Claude Desktop, or custom clients.
+- The server maintains persistent shared infrastructure/state (databases, services) that should live independently of a single local client process.
+
+`stdio` is great for local trusted setups where the client launches the server directly on the same machine, but it does not provide the authentication boundary needed for an internet-reachable MCP server.
 
 ## Activity 1: Extend the MCP Server
 
