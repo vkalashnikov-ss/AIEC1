@@ -20,4 +20,3 @@ dependencies = [
 name = "sstp"
 url = "https://sstp.jfrog.io/artifactory/api/pypi/pypi/simple"
 default = true
-
