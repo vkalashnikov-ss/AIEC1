@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useStream } from "@langchain/react";
+import ReactMarkdown, { type Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Bot,
   FileText,
@@ -22,6 +24,68 @@ import { cn } from "@/lib/utils";
 import { getMessageText, toolLabel } from "@/lib/messages";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
+
+const MARKDOWN_COMPONENTS: Components = {
+  h1: ({ ...props }) => (
+    <h1 className="mb-2 mt-1 text-base font-semibold tracking-tight text-sky-600" {...props} />
+  ),
+  h2: ({ ...props }) => (
+    <h2 className="mb-2 mt-3 text-sm font-semibold tracking-tight text-emerald-600" {...props} />
+  ),
+  h3: ({ ...props }) => (
+    <h3 className="mb-1 mt-2 text-sm font-medium text-cyan-600" {...props} />
+  ),
+  p: ({ ...props }) => <p className="my-2 leading-relaxed" {...props} />,
+  ul: ({ ...props }) => (
+    <ul className="my-2 list-disc space-y-1 pl-5 marker:text-muted-foreground" {...props} />
+  ),
+  ol: ({ ...props }) => (
+    <ol className="my-2 list-decimal space-y-1 pl-5 marker:text-muted-foreground" {...props} />
+  ),
+  li: ({ ...props }) => <li className="leading-relaxed" {...props} />,
+  blockquote: ({ ...props }) => (
+    <blockquote
+      className="my-3 border-l-2 border-primary/50 bg-primary/5 pl-3 py-1 text-muted-foreground"
+      {...props}
+    />
+  ),
+  a: ({ ...props }) => (
+    <a
+      className="font-medium text-primary underline decoration-primary/50 underline-offset-4 hover:text-primary/80 hover:decoration-primary"
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    />
+  ),
+  code: ({ className, children, ...props }) => {
+    const isBlock = className?.includes("language-");
+    if (isBlock) {
+      return (
+        <code
+          className="block overflow-x-auto rounded-md border border-primary/20 bg-primary/10 px-3 py-2 text-xs"
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code className="rounded bg-primary/15 px-1 py-0.5 text-[0.8em] text-primary" {...props}>
+        {children}
+      </code>
+    );
+  },
+  pre: ({ ...props }) => <pre className="my-3" {...props} />,
+  table: ({ ...props }) => (
+    <div className="my-3 overflow-x-auto">
+      <table className="w-full border-collapse overflow-hidden rounded-md text-xs" {...props} />
+    </div>
+  ),
+  th: ({ ...props }) => (
+    <th className="border border-primary/25 bg-primary/15 px-2 py-1 text-left font-medium text-primary" {...props} />
+  ),
+  td: ({ ...props }) => <td className="border border-primary/20 px-2 py-1" {...props} />,
+};
 
 type StreamMessage = ReturnType<typeof useStream>["messages"][number];
 
@@ -201,13 +265,21 @@ function MessageRow({ message }: { message: StreamMessage }) {
         {text && (
           <div
             className={cn(
-              "rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap",
+              "rounded-2xl px-4 py-2.5 text-sm",
               isHuman
                 ? "bg-primary text-primary-foreground"
                 : "bg-muted text-foreground"
             )}
           >
-            {text}
+            {isHuman ? (
+              <div className="whitespace-pre-wrap">{text}</div>
+            ) : (
+              <div className="max-w-none whitespace-pre-wrap text-sm">
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={MARKDOWN_COMPONENTS}>
+                  {text}
+                </ReactMarkdown>
+              </div>
+            )}
           </div>
         )}
       </div>
