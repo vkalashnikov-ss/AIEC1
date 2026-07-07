@@ -23,6 +23,9 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "langgraph-cli>=0.4.14",
     "langgraph-api>=0.4.28",
+    "langsmith>=0.9.0",
+    "ragas>=0.1.0",
+    "ollama>=0.1.0",
 ]
 
 [[tool.uv.index]]
