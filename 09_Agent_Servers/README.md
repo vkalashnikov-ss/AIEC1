@@ -428,7 +428,9 @@ Why does LangSmith deploy your agent as an API backend only, and why do you stil
 
 #### Answer
 
-_(insert your answer here)_
+LangSmith deploys your LangGraph project as an **agent API backend** (threads, runs, assistants, streaming, tracing), not as a browser-facing web app. That separation is intentional: the backend focuses on agent execution, observability, and runtime orchestration, while a frontend deployment handles UI concerns like routing, rendering, user sessions, and browser interactions.
+
+You still need a separate frontend host (like Vercel) because users need an actual website to interact with the agent. In this architecture, Vercel serves the Next.js app and proxies `/api/*` requests to the LangSmith deployment. This gives you a clean split of responsibilities: LangSmith = agent runtime, Vercel = product interface.
 
 ### Question #2
 
@@ -436,7 +438,9 @@ Why should the LangSmith API key live in a Next.js API route (server-side) inste
 
 #### Answer
 
-_(insert your answer here)_
+The LangSmith API key must stay server-side because it is a privileged secret. If it is exposed in browser code, anyone can extract it from DevTools/network traffic and call your agent backend directly, potentially running up costs, accessing protected routes, or abusing your deployment.
+
+A Next.js API route solves this by acting as a secure proxy: the browser calls your own `/api` endpoint, and the server injects `LANGSMITH_API_KEY` from environment variables at request time. This keeps secrets out of client bundles while still allowing streamed responses in the UI.
 
 ## Activity 1: Build a Helpfulness Loop in Production
 
