@@ -4,7 +4,7 @@
 
 | 📰 Session Sheet | ⏺️ Recording | 🖼️ Slides | 👨‍💻 Repo | 📝 Homework | 📁 Feedback |
 |:----------------|:------------|:----------|:---------|:-----------|:-----------|
-| []() | []() | []() | []() | []() | []() |
+| [Session 14: Multimodal RAG](https://github.com/AI-Maker-Space/The-AI-Engineering-Certification-v1.0/tree/main/00_Docs/Modules/14_Multimodal_RAG) |[Recording!](https://us02web.zoom.us/rec/share/NgVURG6fXmnx1yaD_v59EwLOXGkSsqDVbfZ0-1PLajEFKYAWvSx910wXw14TybrY.tIE0_dv0mi-zZZBF) <br> passcode: `f8Vf*kFB`| [Session 14 Slides](https://canva.link/7v6gl0p4htce5ib) | You are here! | [Session 14 Assignment](https://forms.gle/2p6KYF56ejSF1dyQ9) | [Feedback 7/16](https://forms.gle/6GCcwo1nF4oi8epp9) |
 
 **⚠️!!! This session makes real API calls and the first CLIP run downloads a ~600 MB model. Your `OPENAI_API_KEY` lives in `.env` — never commit it !!!⚠️**
 
@@ -12,7 +12,7 @@
 
 This week we extend text RAG to **images + text in one pipeline** using **Vision-Language Models**. You'll use a VLM two different ways — as an *ingestion parser* that turns charts into searchable chunks, and as a *query-time reader* that reads exact numbers straight off the pixels. In between, you'll build and compare **three cross-modal retrieval strategies** on **Qdrant**, then extend the whole pipeline to **video with timestamp citations**. Everything runs against a tiny CC0 synthetic dataset (ACME Robotics FY2024) that ships in `./data` — the key numbers exist *only in the chart pixels*, so you can prove your pipeline really reads images.
 
-The notebook is `multimodal_rag_vlm.ipynb`, split into two breakout rooms of ~25 minutes each. Everything you need to answer the questions is written in the notebook's explanations — read as you run.
+The notebook is `multimodal_rag.ipynb`, split into two breakout rooms of ~25 minutes each. Everything you need to answer the questions is written in the notebook's explanations — read as you run.
 
 - 🤝 Breakout Room #1: Parsing & Cross-Modal Retrieval (Sections 0–5)
   - Get set up: run `uv sync` in this folder, copy `.env.example` to `.env` and add your `OPENAI_API_KEY`, then open the notebook with this folder's environment (`uv run jupyter lab`, or select the `.venv` kernel in Cursor/VS Code)
@@ -33,7 +33,7 @@ A fully-run multi-modal RAG notebook that retrieves chart images from text quest
 
 ### Deliverables
 
-- Your completed `multimodal_rag_vlm.ipynb` — every cell executed, all four ❓ questions answered, and both 🏗️ activities done with your observations filled in
+- Your completed `multimodal_rag.ipynb` — every cell executed, all four ❓ questions answered, and both 🏗️ activities done with your observations filled in
 - A five-minute-or-less Loom video walking through your pipeline, including one answer the model read from chart pixels and one video answer with a timestamp citation
 
 # Share 🚀
@@ -64,7 +64,7 @@ Feel free to reach out if you're curious or would like to collaborate on similar
 
 Follow these steps to prepare and submit your homework:
 
-1. Complete both breakout rooms in `multimodal_rag_vlm.ipynb`, running every cell top to bottom
+1. Complete both breakout rooms in `multimodal_rag.ipynb`, running every cell top to bottom
 2. Respond to the four questions in the notebook (There are two at the end of each Breakout Room section)
 3. Complete the activities in the notebook (There is one at the end of each Breakout Room section)
 4. Record a Loom video walking through your completed notebook
