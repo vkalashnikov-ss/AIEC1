@@ -83,7 +83,22 @@ What is the difference between serverless and dedicated endpoints?
 
 #### ✅ Answer:
 
-_(insert your answer here)_
+**Serverless Endpoints:**
+- Shared infrastructure managed by the provider (Fireworks AI)
+- No setup or deployment required; instantly available
+- Pay-per-token pricing model (variable cost based on usage)
+- Variable latency and throughput due to shared resource pool
+- Ideal for development, testing, and unpredictable workloads
+- Example: `accounts/fireworks/models/gpt-oss-20b`
+
+**Dedicated Endpoints:**
+- Custom deployment on isolated infrastructure reserved for your use
+- Guaranteed capacity and consistent performance
+- Fixed hourly or monthly billing regardless of usage
+- Predictable, low-latency responses due to reserved resources
+- Requires setup time (15-20 minutes) via deployment configuration
+- Better for production workloads with consistent traffic
+- Cost-effective at scale with predictable throughput requirements
 
 ### ❓ Question #2:
 
@@ -91,7 +106,20 @@ Why is it important to consider token throughput and latency when choosing an LL
 
 #### ✅ Answer:
 
-_(insert your answer here)_
+**Latency Impact:**
+- **User Experience**: Lower latency = faster response times = better perceived quality. Users expect responses within 1-3 seconds for conversational AI
+- **Real-time Constraints**: Applications like customer support chatbots, search assistants, and interactive agents require sub-second first-token latency
+- **Engagement**: Slow responses lead to user frustration and abandonment
+
+**Token Throughput Impact:**
+- **Concurrency**: Throughput (tokens/second) determines how many concurrent users an endpoint can serve; low throughput requires expensive scaling
+- **Cost Per Request**: Higher throughput endpoints process more tokens simultaneously, reducing per-token overhead and cost
+- **Scalability Limits**: A model with 100 tokens/sec can handle far fewer concurrent users than one with 1000 tokens/sec at peak traffic
+- **Queue Management**: Low throughput leads to queuing delays, further increasing end-to-end latency
+
+**Business Impact:**
+- Choosing the right endpoint prevents costly infrastructure over-provisioning or poor user experience due under-provisioning
+- Enterprise applications must balance cost, performance, and reliability based on expected load patterns
 
 ## Activity 1: RAGAS Evaluation with Cost Analysis
 
